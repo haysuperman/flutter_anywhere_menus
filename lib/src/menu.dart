@@ -6,9 +6,11 @@ import 'enums.dart';
 part 'menu_item.dart';
 part 'menu_bar.dart';
 part 'offset_methods.dart';
+part 'menu_controller.dart';
 
 /// This is the what contains both the widget you want to draw and the [MenuBar]
 class Menu extends StatefulWidget {
+  final MenuController controller;
   final Widget child;
 
   /// This contains all of the info for rendering the Menu
@@ -39,6 +41,7 @@ class Menu extends StatefulWidget {
 
   const Menu({
     Key key,
+    this.controller,
     this.child,
     this.menuBar,
     this.menuOverTap = false,
@@ -61,7 +64,15 @@ class _MenuState extends State<Menu> {
   // ignore: prefer_final_fields
   static List<OverlayEntry> _overlays = [];
   final GlobalKey sizeKey = GlobalKey();
-
+  @override
+  void initState() { 
+    super.initState();
+    if(widget.controller!=null){
+      widget.controller.dismiss = (){
+        dismiss();
+      };
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
